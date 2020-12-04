@@ -1,0 +1,1 @@
+pyxeleditor .\pyrogue.pyxres
