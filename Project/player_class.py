@@ -2,7 +2,12 @@ import pyxel
 import mngcls
 
 
-SPR_P = [[0,0], [8, 0]]
+SPR_U = [[0,0], [8, 0]]
+SPR_L = [[16,0], [24, 0]]
+SPR_D = [[32,0], [40, 0]]
+SPR_R = [[48,0], [56, 0]]
+
+SPR_ING = [[64,0], [72, 0], [80, 0]]    #インジケーター（青、黄、赤）
 
 class Player:
     def __init__(self, x, y, dir):
@@ -20,7 +25,7 @@ class Player:
 
         self.vsync = 0  #vsync
 
-    # vsync 親のupdateで叩かれれます
+    # vsync 親のupdateで呼ばれてます
     def vsync_inc(self):
         self.vsync += 1
         if 60 <= self.vsync:
@@ -74,7 +79,9 @@ class Player:
 
             #self.p_x += dir_x
             #self.p_y += dir_y
-            
+            pyxel.play(0, 0)
+
+
             self.p_moving = False
             self.p_KnockBk = True
         else:
@@ -86,17 +93,33 @@ class Player:
         cid = 0
         if 30 < self.vsync : cid = 1
 
-        ox = SPR_P[cid][0]
-        oy = SPR_P[cid][1]
-        lr = 1
+        if self.p_dir == mngcls.DIR_U:
+            spr_x = SPR_U[cid][0]
+            spr_y = SPR_U[cid][1]
+        elif self.p_dir == mngcls.DIR_L:
+            spr_x = SPR_L[cid][0]
+            spr_y = SPR_L[cid][1]
+        elif self.p_dir == mngcls.DIR_D:
+            spr_x = SPR_D[cid][0]
+            spr_y = SPR_D[cid][1]
 
-        if dir == mngcls.DIR_L:
-            lr = -1
-        elif dir == mngcls.DIR_R:
-            lr = 1
+        elif self.p_dir == mngcls.DIR_R:
+            spr_x = SPR_R[cid][0]
+            spr_y = SPR_R[cid][1]
 
+        #HPインジケーターのスプライト
+        #ing_cr = 0 #青
+        #ing_cr = 1 #黄
+        ing_cr = 2 #赤
 
-        pyxel.blt(x, y, mngcls.SPR_IMGBNK, ox, oy, mngcls.SPR_WIDTH * lr, mngcls.SPR_HEIGHT, mngcls.TRANS_COL) 
+        spr_ing_x = SPR_ING[ing_cr][0]
+        spr_ing_y = SPR_ING[ing_cr][1]
+
+        pyxel.blt(x, y, mngcls.SPR_IMGBNK, spr_x, spr_y, mngcls.SPR_WIDTH, mngcls.SPR_HEIGHT, mngcls.TRANS_COL)
+
+        pyxel.blt(x, y, mngcls.SPR_IMGBNK, spr_ing_x, spr_ing_y, mngcls.SPR_WIDTH, mngcls.SPR_HEIGHT, mngcls.TRANS_COL)
+
+    #SPR_ING = [[64,0], [72, 0], [80, 0]] 
 
     def draw(self):
         if self.p_moving == True:   #移動モーション中
@@ -129,7 +152,10 @@ class Player:
                     self.draw_spr(self.p_slide_x, self.p_slide_y, self.p_dir)
                     #self.draw_spr(self.p_slide_x, self.p_slide_y, self.p_dir)
                     self.p_KnockBk = False
-                    self.p_moving = False   
+                    self.p_moving = False
+                    
+
+
             else:   #移動が発生してない 
                 self.draw_spr(self.p_x * mngcls.SPR_WIDTH, self.p_y * mngcls.SPR_HEIGHT, self.p_dir)
 
