@@ -1,5 +1,5 @@
 import pyxel
-import mngcls
+import mng_class as mngcls
 import player_class
 
 #----------------------------------------------------------
