@@ -1,5 +1,5 @@
 import pyxel
-import mngcls
+import mng_class as mngcls
 
 
 SPR_U = [[0,0], [8, 0]]
