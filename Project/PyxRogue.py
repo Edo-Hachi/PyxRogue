@@ -10,7 +10,7 @@ def _Update_GamePlay(self):
     KEY_SENCE = 10
 
     #なくても良いかも
-    #if self.player.get_moving_state(): return
+    if self.player.get_moving_state(): return
 
     
     if pyxel.btnp(pyxel.KEY_LEFT, KEY_SENCE, KEY_SENCE):
