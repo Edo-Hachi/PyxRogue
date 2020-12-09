@@ -42,28 +42,9 @@ class Player:
         #イメージマップの進行方向のオブジェクトチェック
         dir_tile = pyxel.tilemap(mngcls.TILEMAP_0).get(self.p_x + dir_x, self.p_y + dir_y)
 
-        #print("DIR=" + str(dir) + ":tile=" + str(dir_tile))
+        #通り抜けできないオブジェクト
+        if dir_tile == mngcls.TILE_WALL0 or dir_tile == mngcls.TILE_WALL1:
         
-        #self.p_x += dir_x
-        #self.p_y += dir_y
-
-        #now_tile = pyxel.tilemap(mngcls.TILEMAP_0).get(self.p_x, self.p_y)
-        #print("NOW=" + str(dir_x) + ":" + str(dir_y) + ":tile=" + str(now_tile))
-
-        if dir_tile == mngcls.TILE_NONE:    #空白なので移動OK
-
-            self.p_slide_cnt = mngcls.TILE_SIZE
-            self.p_slide_x = self.p_x * mngcls.SPR_WIDTH
-            self.p_slide_y = self.p_y * mngcls.SPR_HEIGHT
-            self.p_ofs_x = dir_x
-            self.p_ofs_y = dir_y
-
-            self.p_x += dir_x
-            self.p_y += dir_y
-            self.p_moving = True
-
-        #elif dir_tile == mngcls.TILE_WALL0 or dir_tile == mngcls.TILE_WALL1:
-        else:
             print(" なにかに当たった！")
             self.p_slide_cnt = mngcls.TILE_SIZE / 4
             self.p_slide_x = self.p_x * mngcls.SPR_WIDTH
@@ -76,6 +57,20 @@ class Player:
 
             self.p_moving = False
             self.p_KnockBk = True
+
+        elif dir_tile == mngcls.TILE_NONE or dir_tile == mngcls.TILE_DNSTR or dir_tile == mngcls.TILE_UPSTR or dir_tile == mngcls.TILE_DOOR: #空白なので移動OK
+
+            self.p_slide_cnt = mngcls.TILE_SIZE
+            self.p_slide_x = self.p_x * mngcls.SPR_WIDTH
+            self.p_slide_y = self.p_y * mngcls.SPR_HEIGHT
+            self.p_ofs_x = dir_x
+            self.p_ofs_y = dir_y
+
+            self.p_x += dir_x
+            self.p_y += dir_y
+            self.p_moving = True
+        
+
         #else:
         #    pass
     
@@ -88,9 +83,11 @@ class Player:
         if self.p_dir == mngcls.DIR_U:
             spr_x = SPR_U[cid][0]
             spr_y = SPR_U[cid][1]
+
         elif self.p_dir == mngcls.DIR_L:
             spr_x = SPR_L[cid][0]
             spr_y = SPR_L[cid][1]
+
         elif self.p_dir == mngcls.DIR_D:
             spr_x = SPR_D[cid][0]
             spr_y = SPR_D[cid][1]
@@ -143,7 +140,7 @@ class Player:
 
                     # __debug__ 壁以外の場合はアイテム、ドアなどを消す処理
 
-            else:   #移動が発生してない 停止中アニメ
+            else:   #移動が発生してない 停止中足踏みアニメ
                 self.draw_spr(self.p_x * mngcls.SPR_WIDTH, self.p_y * mngcls.SPR_HEIGHT, self.p_dir)
 
     #移動処理(スライド)中かどうかを返す
