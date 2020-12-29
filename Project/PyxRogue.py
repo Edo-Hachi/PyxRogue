@@ -11,7 +11,6 @@ def _Update_GamePlay(self):
 
     #なくても良いかも
     if self.player.get_moving_state(): return
-
     
     if pyxel.btnp(pyxel.KEY_LEFT, KEY_SENCE, KEY_SENCE):
         self.player.move(mngcls.DIR_L)
