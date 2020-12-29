@@ -42,7 +42,7 @@ class Player:
         #イメージマップの進行方向のオブジェクトチェック
         dir_tile = pyxel.tilemap(mngcls.TILEMAP_0).get(self.p_x + dir_x, self.p_y + dir_y)
 
-        #print("DIR=" + str(dir) + ":tile=" + str(dir_tile))
+        print("DIR=" + str(dir) + ":tile=" + str(dir_tile))
         
         #self.p_x += dir_x
         #self.p_y += dir_y
